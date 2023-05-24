@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import "./NavBar.css";
 
 function NavBar(props) {
+  const refHeader = useRef(null);
+  useEffect(() => {
+    gsap.fromTo(
+      refHeader.current,
+      {
+        opacity: 0,
+      },
+      {
+        opacity: 1,
+        duration: 1.5,
+      },
+      "2"
+    );
+  });
   return (
-    <header>
+    <header ref={refHeader}>
       <nav className="container-nav">
         <h2>竹内</h2>
         <ul>

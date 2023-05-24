@@ -7,30 +7,63 @@ import ImgSamurai from "../../assets/samurai.png";
 import ImgGithub from "../../assets/github.png";
 import ImgLinkdin from "../../assets/linkdin.png";
 import ImgWhatzap from "../../assets/whatzap.png";
+import { gsap } from "gsap/all";
 
 function Hero(props) {
-
   useEffect(() => {
     const element = document.querySelectorAll(".parallax");
+    let tl = gsap.timeline();
 
-    element.forEach((el) => {
-      let distance = parseFloat(el.dataset.distance);
-      let duration = parseFloat(el.dataset.duration);
-      const styles = window.getComputedStyle(el);
-      const valorTop = parseFloat(styles.getPropertyValue("top"));
+    Array.from(element)
+      .filter((e) => !e.classList.contains("title-hero"))
+      .forEach((el) => {
+        let distance = parseFloat(el.dataset.distance);
+        let duration = parseFloat(el.dataset.duration);
+        const styles = window.getComputedStyle(el);
+        const valorTop = parseFloat(styles.getPropertyValue("top"));
 
-      let tl = gsap.timeline();
-      tl.fromTo(
-        el,
-        {
-          top: distance,
-        },
-        {
-          top: valorTop,
-          duration: duration
-        }
-      );
-    });
+        tl.fromTo(
+          el,
+          {
+            top: distance,
+          },
+          {
+            top: valorTop,
+            duration: duration,
+            ease: "power3.out",
+          },
+          ".8"
+        );
+      });
+
+    animateElement(".title-hero h1");
+    animateElement(".title-hero p");
+
+    gsap.fromTo(
+      ".social-midia",
+      {
+        opacity: 0,
+        y: 20,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+      },
+      "3"
+    );
+
+    gsap.fromTo(
+      ".vignette",
+      {
+        opacity: 0,
+      },
+      {
+        opacity: 1,
+        duration: 1.5,
+      },
+      "2"
+    );
   });
 
   useEffect(() => {
@@ -57,6 +90,27 @@ function Hero(props) {
     };
   }, []);
 
+  function animateElement(selector) {
+    const element = document.querySelector(selector);
+    const style = window.getComputedStyle(element);
+    const valorTop = parseFloat(style.getPropertyValue("top"));
+
+    gsap.fromTo(
+      selector,
+      {
+        opacity: 0,
+        y: selector === ".title-hero h1" ? -40 : 40,
+      },
+      {
+        opacity: 1,
+        y: valorTop,
+        duration: 1.5,
+				ease: "power1.out"
+      },
+      "1.8"
+    );
+  }
+
   return (
     <section className="container-hero">
       <div className="vignette"></div>
@@ -66,15 +120,14 @@ function Hero(props) {
         className="parallax samurai"
         data-speedx="0.144"
         data-speedy="0.1"
-        data-distance="2450"
-        data-duration="2.3"
+        data-distance="1500"
+        data-duration="3"
       />
       <div
         className="parallax title-hero"
         data-speedx="0.07"
         data-speedy="0.04"
-        data-distance="-200"
-        data-duration="2.3"
+        data-duration="3"
       >
         <h1>Allan Takeuchi</h1>
         <p>web & mobile developer</p>
@@ -90,8 +143,8 @@ function Hero(props) {
         className="parallax folha"
         data-speedx="0.166"
         data-speedy="0.144"
-        data-distance="2450"
-        data-duration="2.4"
+        data-distance="1500"
+        data-duration="3"
       />
       <img
         src={ImgMontanha}
@@ -100,7 +153,7 @@ function Hero(props) {
         data-speedx="0.22"
         data-speedy="0.189"
         data-distance="1500"
-        data-duration="1.8"
+        data-duration="3"
       />
       <img
         src={ImgBackground}
@@ -108,8 +161,8 @@ function Hero(props) {
         className="parallax bg-img"
         data-speedx="0.3"
         data-speedy="0.24"
-        data-distance="-300"
-        data-duration="2.3"
+        data-distance="1200"
+        data-duration="3.3"
       />
     </section>
   );
