@@ -13,7 +13,7 @@ function NavBar(props) {
         opacity: 1,
         duration: 1.5,
       },
-      "2"
+      "2.8"
     );
   });
   return (

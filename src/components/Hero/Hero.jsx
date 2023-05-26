@@ -8,6 +8,8 @@ import ImgGithub from "../../assets/github.png";
 import ImgLinkdin from "../../assets/linkdin.png";
 import ImgWhatzap from "../../assets/whatzap.png";
 import { gsap } from "gsap/all";
+import { Power1, Power3, Power4 } from "gsap";
+import { TimelineMax } from "gsap/gsap-core";
 
 function Hero(props) {
   useEffect(() => {
@@ -15,7 +17,7 @@ function Hero(props) {
     let tl = gsap.timeline();
 
     Array.from(element)
-      .filter((e) => !e.classList.contains("title-hero"))
+      .filter((e) => !e.classList.contains("title-hero") || !e.classList.contains("folha") )
       .forEach((el) => {
         let distance = parseFloat(el.dataset.distance);
         let duration = parseFloat(el.dataset.duration);
@@ -30,14 +32,26 @@ function Hero(props) {
           {
             top: valorTop,
             duration: duration,
-            ease: "power3.out",
+            ease: Power3.easeOut,
           },
-          ".8"
+          ".1"
         );
       });
 
     animateElement(".title-hero h1");
     animateElement(".title-hero p");
+
+    gsap.fromTo(
+      ".vignette",
+      {
+        opacity: 0,
+      },
+      {
+        opacity: 1,
+        duration: 1.5,
+      },
+      "2"
+    );
 
     gsap.fromTo(
       ".social-midia",
@@ -51,18 +65,28 @@ function Hero(props) {
         duration: 0.8,
       },
       "3"
-    );
+    );  
+
+    const folha = document.querySelector('.folha');
+    const styleFolha = window.getComputedStyle(folha);
+    const valorTopfolha = parseFloat(styleFolha.getPropertyValue("top"));
+    const valorRightfolha = parseFloat(styleFolha.getPropertyValue("left"));
 
     gsap.fromTo(
-      ".vignette",
+      ".folha",
       {
+        top: 260,
+        left: 2300,
         opacity: 0,
       },
       {
+        top: valorTopfolha,
+        left: valorRightfolha,
         opacity: 1,
         duration: 1.5,
+        ease: Power2.easeInOut
       },
-      "2"
+      "3"
     );
   });
 
@@ -105,7 +129,7 @@ function Hero(props) {
         opacity: 1,
         y: valorTop,
         duration: 1.5,
-				ease: "power1.out"
+				ease: Power1.easeOut
       },
       "1.8"
     );
@@ -121,7 +145,7 @@ function Hero(props) {
         data-speedx="0.144"
         data-speedy="0.1"
         data-distance="1500"
-        data-duration="3"
+        data-duration="3.2"
       />
       <div
         className="parallax title-hero"
@@ -153,7 +177,7 @@ function Hero(props) {
         data-speedx="0.22"
         data-speedy="0.189"
         data-distance="1500"
-        data-duration="3"
+        data-duration="2.5"
       />
       <img
         src={ImgBackground}
